@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 az aks get-credentials --resource-group ${resourceGroup} --name ${aksName} --overwrite-existing
 az acr build --registry ${registry} --image chatbot:latest ./../sample-application
 
