@@ -9,6 +9,7 @@ on:
       - main
 
 env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
   TF_WORKING_DIR: "infra"
   AZURE_RESOURCE_GROUP_PROD: "rg-prod-openai-app"
   AZURE_CONTAINER_REGISTRY_PROD: "acrprodopenai"
