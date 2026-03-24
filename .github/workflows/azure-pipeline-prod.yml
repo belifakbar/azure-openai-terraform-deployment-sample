@@ -58,73 +58,73 @@ jobs:
         path: ${{ env.TF_WORKING_DIR }}/.terraform.lock.hcl
         include-hidden-files: true
 
-  terraform_apply:
-    runs-on: ubuntu-latest
-    needs: terraform_plan
-    environment:
-      name: prod
-      url: https://prod.example.com # Replace with your prod app URL
+  # terraform_apply:
+  #   runs-on: ubuntu-latest
+  #   needs: terraform_plan
+  #   environment:
+  #     name: prod
+  #     url: https://prod.example.com # Replace with your prod app URL
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+  #   steps:
+  #   - name: Checkout repository
+  #     uses: actions/checkout@v4
 
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_PROD }}
+  #   - name: Azure Login
+  #     uses: azure/login@v1
+  #     with:
+  #       creds: ${{ secrets.AZURE_CREDENTIALS_PROD }}
 
-    - name: Download Terraform Plan Artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: terraform-plan
-        path: ${{ env.TF_WORKING_DIR }}
+  #   - name: Download Terraform Plan Artifact
+  #     uses: actions/download-artifact@v4
+  #     with:
+  #       name: terraform-plan
+  #       path: ${{ env.TF_WORKING_DIR }}
 
-    - name: Download Terraform Lock File Artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: terraform-lockfile
-        path: ${{ env.TF_WORKING_DIR }}
+  #   - name: Download Terraform Lock File Artifact
+  #     uses: actions/download-artifact@v4
+  #     with:
+  #       name: terraform-lockfile
+  #       path: ${{ env.TF_WORKING_DIR }}
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: 1.6.x
+  #   - name: Setup Terraform
+  #     uses: hashicorp/setup-terraform@v3
+  #     with:
+  #       terraform_version: 1.6.x
 
-    - name: Terraform Init (Apply Job)
-      run: terraform init -lockfile=readonly
-      working-directory: ${{ env.TF_WORKING_DIR }}
+  #   - name: Terraform Init (Apply Job)
+  #     run: terraform init -lockfile=readonly
+  #     working-directory: ${{ env.TF_WORKING_DIR }}
 
-    - name: Terraform Apply (Prod)
-      run: terraform apply tfplan
-      working-directory: ${{ env.TF_WORKING_DIR }}
+  #   - name: Terraform Apply (Prod)
+  #     run: terraform apply tfplan
+  #     working-directory: ${{ env.TF_WORKING_DIR }}
 
-  final_deployment:
-    runs-on: ubuntu-latest
-    needs: terraform_apply
+  # final_deployment:
+  #   runs-on: ubuntu-latest
+  #   needs: terraform_apply
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+  #   steps:
+  #   - name: Checkout repository
+  #     uses: actions/checkout@v4
 
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_PROD }}
+  #   - name: Azure Login
+  #     uses: azure/login@v1
+  #     with:
+  #       creds: ${{ secrets.AZURE_CREDENTIALS_PROD }}
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: 1.6.x
+  #   - name: Setup Terraform
+  #     uses: hashicorp/setup-terraform@v3
+  #     with:
+  #       terraform_version: 1.6.x
 
-    - name: Terraform Init (Final Stage)
-      run: terraform init -lockfile=readonly
-      working-directory: ${{ env.TF_WORKING_DIR }}
+  #   - name: Terraform Init (Final Stage)
+  #     run: terraform init -lockfile=readonly
+  #     working-directory: ${{ env.TF_WORKING_DIR }}
 
-    - name: Run installation script
-      run: |
-        terraform output -raw installation-script | bash
-      working-directory: ${{ env.TF_WORKING_DIR }}
+  #   - name: Run installation script
+  #     run: |
+  #       terraform output -raw installation-script | bash
+  #     working-directory: ${{ env.TF_WORKING_DIR }}
 
-    - name: Get chatbot service external IP
-      run: kubectl get services -n chatbot
+  #   - name: Get chatbot service external IP
+  #     run: kubectl get services -n chatbot
