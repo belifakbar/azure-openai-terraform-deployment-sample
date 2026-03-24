@@ -150,3 +150,19 @@ jobs:
         # This could be helm, kubectl, or a custom script.
         # For example, using kubectl to update a deployment:
         kubectl set image deployment/sample-app sample-app=${{ env.AZURE_CONTAINER_REGISTRY_NONPROD }}.azurecr.io/sample-app:nonprod-${{ github.run_number }}
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.6.x
+
+    - name: Terraform Init (Final AKS Stage)
+      run: terraform init -lockfile=readonly
+      working-directory: ${{ env.TF_WORKING_DIR }}
+
+    - name: Run installation script
+      run: terraform output -raw installation-script | bash
+      working-directory: ${{ env.TF_WORKING_DIR }}
+
+    - name: Get chatbot service external IP
+      run: kubectl get services -n chatbot
