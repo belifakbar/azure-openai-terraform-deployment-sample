@@ -15,10 +15,6 @@ env:
   AZURE_CONTAINER_REGISTRY_PROD: "acrprodopenai"
   AZURE_AKS_CLUSTER_PROD: "aks-prod-openai"
   AZURE_LOCATION: "East US"
-  TFSTATE_RESOURCE_GROUP: "rg_azure_openai"
-  TFSTATE_STORAGE_ACCOUNT: "stgazureopenai101"
-  TFSTATE_CONTAINER: "terraformstateprod"
-  TFSTATE_KEY_PROD: "BUhCfd45letMAd/AHLkvBWPvKmzMicO27UjKA/d8P5VvMkaRnHX8SN6f5MwMi/lCdrHNsjQruc92+AStVsZM2Q=="
 
 jobs:
   terraform_plan:
