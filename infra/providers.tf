@@ -16,6 +16,12 @@ terraform {
       version = "3.3.2"
     }
   }
+    backend "azurerm" {
+      resource_group_name  = "rg_azure_openai"
+      storage_account_name = "stgazureopenai101"
+      container_name       = "terraformstateprod"
+      key                  = "terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
