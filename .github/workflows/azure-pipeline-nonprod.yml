@@ -16,6 +16,10 @@ env:
   AZURE_CONTAINER_REGISTRY_NONPROD: "acrnonprodopenai"
   AZURE_AKS_CLUSTER_NONPROD: "aks-nonprod-openai"
   AZURE_LOCATION: "East US"
+  TFSTATE_RESOURCE_GROUP: "rg_azure_openai"
+  TFSTATE_STORAGE_ACCOUNT: "stgazureopenai101"
+  TFSTATE_CONTAINER: "terraformstatenonprod"
+  TFSTATE_KEY_NONPROD: "BUhCfd45letMAd/AHLkvBWPvKmzMicO27UjKA/d8P5VvMkaRnHX8SN6f5MwMi/lCdrHNsjQruc92+AStVsZM2Q=="
 
 jobs:
   terraform_plan:
@@ -36,7 +40,12 @@ jobs:
         terraform_version: 1.6.x
 
     - name: Terraform Init
-      run: terraform init
+      run: >
+        terraform init
+        -backend-config="resource_group_name=${{ secrets.TFSTATE_RESOURCE_GROUP }}"
+        -backend-config="storage_account_name=${{ secrets.TFSTATE_STORAGE_ACCOUNT }}"
+        -backend-config="container_name=${{ secrets.TFSTATE_CONTAINER }}"
+        -backend-config="key=${{ secrets.TFSTATE_KEY_NONPROD }}"
       working-directory: ${{ env.TF_WORKING_DIR }}
 
     - name: Terraform Validate
@@ -94,7 +103,12 @@ jobs:
         terraform_version: 1.6.x
 
     - name: Terraform Init (Apply Job)
-      run: terraform init -lockfile=readonly
+      run: >
+        terraform init -lockfile=readonly
+        -backend-config="resource_group_name=${{ secrets.TFSTATE_RESOURCE_GROUP }}"
+        -backend-config="storage_account_name=${{ secrets.TFSTATE_STORAGE_ACCOUNT }}"
+        -backend-config="container_name=${{ secrets.TFSTATE_CONTAINER }}"
+        -backend-config="key=${{ secrets.TFSTATE_KEY_NONPROD }}"
       working-directory: ${{ env.TF_WORKING_DIR }}
 
     - name: Terraform Apply (Non-Prod)
@@ -157,7 +171,12 @@ jobs:
         terraform_version: 1.6.x
 
     - name: Terraform Init (Final AKS Stage)
-      run: terraform init -lockfile=readonly
+      run: >
+        terraform init -lockfile=readonly
+        -backend-config="resource_group_name=${{ secrets.TFSTATE_RESOURCE_GROUP }}"
+        -backend-config="storage_account_name=${{ secrets.TFSTATE_STORAGE_ACCOUNT }}"
+        -backend-config="container_name=${{ secrets.TFSTATE_CONTAINER }}"
+        -backend-config="key=${{ secrets.TFSTATE_KEY_NONPROD }}"
       working-directory: ${{ env.TF_WORKING_DIR }}
 
     - name: Run installation script

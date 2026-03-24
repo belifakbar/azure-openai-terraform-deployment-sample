@@ -14,6 +14,10 @@ env:
   AZURE_CONTAINER_REGISTRY_PROD: "acrprodopenai"
   AZURE_AKS_CLUSTER_PROD: "aks-prod-openai"
   AZURE_LOCATION: "East US"
+  TFSTATE_RESOURCE_GROUP: "rg_azure_openai"
+  TFSTATE_STORAGE_ACCOUNT: "stgazureopenai101"
+  TFSTATE_CONTAINER: "terraformstateprod"
+  TFSTATE_KEY_PROD: "BUhCfd45letMAd/AHLkvBWPvKmzMicO27UjKA/d8P5VvMkaRnHX8SN6f5MwMi/lCdrHNsjQruc92+AStVsZM2Q=="
 
 jobs:
   terraform_plan:
@@ -34,7 +38,12 @@ jobs:
         terraform_version: 1.6.x
 
     - name: Terraform Init
-      run: terraform init
+      run: >
+        terraform init
+        -backend-config="resource_group_name=${{ secrets.TFSTATE_RESOURCE_GROUP }}"
+        -backend-config="storage_account_name=${{ secrets.TFSTATE_STORAGE_ACCOUNT }}"
+        -backend-config="container_name=${{ secrets.TFSTATE_CONTAINER }}"
+        -backend-config="key=${{ secrets.TFSTATE_KEY_PROD }}"
       working-directory: ${{ env.TF_WORKING_DIR }}
 
     - name: Terraform Validate
@@ -92,7 +101,12 @@ jobs:
         terraform_version: 1.6.x
 
     - name: Terraform Init (Apply Job)
-      run: terraform init -lockfile=readonly
+      run: >
+        terraform init -lockfile=readonly
+        -backend-config="resource_group_name=${{ secrets.TFSTATE_RESOURCE_GROUP }}"
+        -backend-config="storage_account_name=${{ secrets.TFSTATE_STORAGE_ACCOUNT }}"
+        -backend-config="container_name=${{ secrets.TFSTATE_CONTAINER }}"
+        -backend-config="key=${{ secrets.TFSTATE_KEY_PROD }}"
       working-directory: ${{ env.TF_WORKING_DIR }}
 
     - name: Terraform Apply (Prod)
@@ -124,22 +138,6 @@ jobs:
     - name: Run installation script
       run: |
         terraform output -raw installation-script | bash
-      working-directory: ${{ env.TF_WORKING_DIR }}
-
-    - name: Get chatbot service external IP
-      run: kubectl get services -n chatbot
-
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: 1.6.x
-
-    - name: Terraform Init (Final AKS Stage)
-      run: terraform init -lockfile=readonly
-      working-directory: ${{ env.TF_WORKING_DIR }}
-
-    - name: Run installation script
-      run: terraform output -raw installation-script | bash
       working-directory: ${{ env.TF_WORKING_DIR }}
 
     - name: Get chatbot service external IP
