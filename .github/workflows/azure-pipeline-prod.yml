@@ -16,6 +16,7 @@ env:
   AZURE_AKS_CLUSTER_PROD: "aks-prod-openai"
   AZURE_LOCATION: "East US"
 
+
 jobs:
   terraform_plan:
     runs-on: ubuntu-latest

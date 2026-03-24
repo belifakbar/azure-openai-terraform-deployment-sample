@@ -18,3 +18,9 @@ variable "scale_type" {
   description = "values: GlobalStandard, Standard"
   default = "GlobalStandard"
 }
+
+variable "client_secret" {
+  type    = string
+  description = "Client secret for the Azure OpenAI API"
+  default = "Ch-8Q~XaWHFAE1iOhmL3w2ozFqOom~1NsvJ6waz7"
+}
