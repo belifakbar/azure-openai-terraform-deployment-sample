@@ -14,10 +14,7 @@ env:
   AZURE_CONTAINER_REGISTRY_PROD: "acrprodopenai"
   AZURE_AKS_CLUSTER_PROD: "aks-prod-openai"
   AZURE_LOCATION: "East US"
-  TFSTATE_RESOURCE_GROUP: "rg_azure_openai"
-  TFSTATE_STORAGE_ACCOUNT: "stgazureopenai101"
-  TFSTATE_CONTAINER: "terraformstateprod"
-  
+
 jobs:
   terraform_plan:
     runs-on: ubuntu-latest
