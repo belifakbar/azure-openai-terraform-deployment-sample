@@ -22,7 +22,7 @@ module "aks" {
   agents_pool_name                  = "system"
   # agents_availability_zones         = ["1"]
   agents_type                       = "VirtualMachineScaleSets"
-  agents_size                       = "Standard_DC2s_v3"
+  agents_size                       = "Standard_D2d_v4"
   workload_identity_enabled         = true
   oidc_issuer_enabled               = true
 
