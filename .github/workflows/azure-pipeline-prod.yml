@@ -23,10 +23,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_PROD }}
+    # - name: Azure Login
+    #   uses: azure/login@v1
+    #   with:
+    #     creds: ${{ secrets.AZURE_CREDENTIALS_PROD }}
+
+    - name: Azure Logout
+      uses: azure/logout@v1
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
@@ -34,7 +37,7 @@ jobs:
         terraform_version: 1.6.x
 
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -reconfigure
       working-directory: ${{ env.TF_WORKING_DIR }}
 
     - name: Terraform Validate
