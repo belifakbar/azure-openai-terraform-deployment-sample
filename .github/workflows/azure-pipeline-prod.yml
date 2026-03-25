@@ -21,83 +21,83 @@ env:
   ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
 jobs:
-  # terraform_plan:
-  #   runs-on: ubuntu-latest
+  terraform_plan:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #   - name: Checkout repository
-  #     uses: actions/checkout@v4
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-  #   - name: Setup Terraform
-  #     uses: hashicorp/setup-terraform@v3
-  #     with:
-  #       terraform_version: 1.6.x
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.6.x
 
-  #   - name: Terraform Init
-  #     run: terraform init -reconfigure
-  #     working-directory: ${{ env.TF_WORKING_DIR }}
+    - name: Terraform Init
+      run: terraform init -reconfigure
+      working-directory: ${{ env.TF_WORKING_DIR }}
 
-  #   - name: Terraform Validate
-  #     run: terraform validate
-  #     working-directory: ${{ env.TF_WORKING_DIR }}
+    - name: Terraform Validate
+      run: terraform validate
+      working-directory: ${{ env.TF_WORKING_DIR }}
 
-  #   - name: Terraform Plan
-  #     run: terraform plan -out=tfplan
-  #     working-directory: ${{ env.TF_WORKING_DIR }}
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
+      working-directory: ${{ env.TF_WORKING_DIR }}
 
-  #   - name: Upload Terraform Plan Artifact
-  #     uses: actions/upload-artifact@v4
-  #     with:
-  #       name: terraform-plan
-  #       path: ${{ env.TF_WORKING_DIR }}/tfplan
+    - name: Upload Terraform Plan Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: terraform-plan
+        path: ${{ env.TF_WORKING_DIR }}/tfplan
 
-  #   - name: Upload Terraform Lock File Artifact
-  #     uses: actions/upload-artifact@v4
-  #     with:
-  #       name: terraform-lockfile
-  #       path: ${{ env.TF_WORKING_DIR }}/.terraform.lock.hcl
-  #       include-hidden-files: true
+    - name: Upload Terraform Lock File Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: terraform-lockfile
+        path: ${{ env.TF_WORKING_DIR }}/.terraform.lock.hcl
+        include-hidden-files: true
 
-  # terraform_apply:
-  #   runs-on: ubuntu-latest
-  #   needs: terraform_plan
+  terraform_apply:
+    runs-on: ubuntu-latest
+    needs: terraform_plan
 
-  #   steps:
-  #   - name: Checkout repository
-  #     uses: actions/checkout@v4
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-  #   - name: Download Terraform Plan Artifact
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: terraform-plan
-  #       path: ${{ env.TF_WORKING_DIR }}
+    - name: Download Terraform Plan Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: terraform-plan
+        path: ${{ env.TF_WORKING_DIR }}
 
-  #   - name: Download Terraform Lock File Artifact
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: terraform-lockfile
-  #       path: ${{ env.TF_WORKING_DIR }}
+    - name: Download Terraform Lock File Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: terraform-lockfile
+        path: ${{ env.TF_WORKING_DIR }}
 
-  #   - name: Setup Terraform
-  #     uses: hashicorp/setup-terraform@v3
-  #     with:
-  #       terraform_version: 1.6.x
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.6.x
 
-  #   - name: Terraform Init (Apply Job)
-  #     run: terraform init -lockfile=readonly
-  #     working-directory: ${{ env.TF_WORKING_DIR }}
+    - name: Terraform Init (Apply Job)
+      run: terraform init -lockfile=readonly
+      working-directory: ${{ env.TF_WORKING_DIR }}
 
-  #   - name: Terraform Validate
-  #     run: terraform validate
-  #     working-directory: ${{ env.TF_WORKING_DIR }}
+    - name: Terraform Validate
+      run: terraform validate
+      working-directory: ${{ env.TF_WORKING_DIR }}
 
-  #   - name: Terraform Apply (Prod)
-  #     run: terraform apply tfplan
-  #     working-directory: ${{ env.TF_WORKING_DIR }}
+    - name: Terraform Apply (Prod)
+      run: terraform apply tfplan
+      working-directory: ${{ env.TF_WORKING_DIR }}
 
   post_deploy:
     runs-on: ubuntu-latest
-    # needs: terraform_apply
+    needs: terraform_apply
     timeout-minutes: 30
 
     steps:
