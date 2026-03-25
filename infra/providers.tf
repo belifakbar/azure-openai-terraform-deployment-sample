@@ -17,8 +17,9 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name  = "rg_azure_openai"
-    storage_account_name = "stgazureopenai101"
+    resource_group_name  = "azure-openai-terraform-deployment-eastus"
+    # storage_account_name = "stgazureopenai101"
+    storage_account_name = "stgazureopenai102"
     container_name       = "tfstate"
     key                  = "openai.tfstate"
   }

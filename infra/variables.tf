@@ -24,3 +24,12 @@ variable "client_secret" {
   description = "Client secret for the Azure OpenAI API"
   default = "Ch-8Q~XaWHFAE1iOhmL3w2ozFqOom~1NsvJ6waz7"
 }
+
+variable "common_tags" {
+  type = map(string)
+  default = {
+    Owner = "Akbar",
+    Project="AIOps",
+    UseCase="Demo"
+  }
+}
