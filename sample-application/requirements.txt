@@ -1,7 +1,9 @@
 langchain==0.1.11
-openai==1.13.3
+# openai==1.13.3
 # LangChain 0.1.x passes `proxies` into httpx; httpx 0.28+ removed that argument.
-httpx>=0.24.0,<0.28.0
+# httpx>=0.24.0,<0.28.0
+openai==1.55.3
+httpx==0.27.2
 streamlit==1.38.0
 tiktoken==0.7.0
 llama-index==0.10.15

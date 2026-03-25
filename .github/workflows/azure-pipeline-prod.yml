@@ -146,10 +146,13 @@ jobs:
       # 🔥 Get service external IP
       - name: Get Service External IP
         run: |
+          echo "Waiting 3 minutes for LoadBalancer external IP..."
+          sleep 60
           kubectl get services -n chatbot
           
   terraform_destroy:
     runs-on: ubuntu-latest
+    needs: post_deploy
     if: ${{ github.event.inputs.confirm_destroy == 'DESTROY' }}
     environment:
       name: prod   # will require approval
