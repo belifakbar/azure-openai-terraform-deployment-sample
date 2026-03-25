@@ -157,7 +157,7 @@ jobs:
 
   terraform_destroy:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.confirm_destroy == 'DESTROY' }}
+    # if: ${{ github.event.inputs.confirm_destroy == 'DESTROY' }}
     environment:
       name: prod   # will require approval
     timeout-minutes: 30
