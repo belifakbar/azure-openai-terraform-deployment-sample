@@ -24,14 +24,14 @@ module "openai" {
       scale_type    = var.scale_type
       capacity      = 30
     },
-    "embedding_model" = {
-      name          = "text-embedding-ada-002"
-      model_format  = "OpenAI"
-      model_name    = "text-embedding-ada-002"
-      model_version = "2"
-      scale_type    = "Standard"
-      capacity      = 120
-    },
+    # "embedding_model" = {
+    #   name          = "text-embedding-ada-002"
+    #   model_format  = "OpenAI"
+    #   model_name    = "text-embedding-ada-002"
+    #   model_version = "2"
+    #   scale_type    = "Standard"
+    #   capacity      = 120
+    # },
   }
   depends_on = [
     azurerm_resource_group.this,
