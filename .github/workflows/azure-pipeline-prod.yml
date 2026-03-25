@@ -23,13 +23,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # - name: Azure Login
-    #   uses: azure/login@v1
-    #   with:
-    #     creds: ${{ secrets.AZURE_CREDENTIALS_PROD }}
-
-    - name: Azure Logout
-      uses: azure/logout@v1
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_PROD }}
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
