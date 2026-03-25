@@ -103,6 +103,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Download Terraform Plan Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan
+          path: ${{ env.TF_WORKING_DIR }}
+
+      - name: Download Terraform Lock File Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-lockfile
+          path: ${{ env.TF_WORKING_DIR }}
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
