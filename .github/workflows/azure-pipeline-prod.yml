@@ -149,21 +149,21 @@ jobs:
           kubectl get services -n chatbot
           
   terraform_destroy:
-  runs-on: ubuntu-latest
-  if: ${{ github.event.inputs.confirm_destroy == 'DESTROY' }}
-  environment:
-    name: prod   # will require approval
-  timeout-minutes: 30
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.confirm_destroy == 'DESTROY' }}
+    environment:
+      name: prod   # will require approval
+    timeout-minutes: 30
 
-  steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Download Terraform Plan Artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: terraform-plan
-        path: ${{ env.TF_WORKING_DIR }}
+      - name: Download Terraform Plan Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan
+          path: ${{ env.TF_WORKING_DIR }}
 
     - name: Download Terraform Lock File Artifact
       uses: actions/download-artifact@v4
