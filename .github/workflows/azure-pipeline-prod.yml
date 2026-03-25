@@ -154,7 +154,7 @@ jobs:
   #         echo "Waiting 3 minutes for LoadBalancer external IP..."
   #         sleep 60
   #         kubectl get services -n chatbot
-          
+
   terraform_destroy:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.confirm_destroy == 'DESTROY' }}
