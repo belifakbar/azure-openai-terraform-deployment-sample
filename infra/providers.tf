@@ -28,6 +28,9 @@ provider "azurerm" {
   features {}
 }
 
-provider "azapi" {}
+provider "azapi" {
+  # # Reuse Azure CLI session established by azure/login in GitHub Actions.
+  # use_cli = true
+}
 
 provider "random" {}
